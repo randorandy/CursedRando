@@ -6,7 +6,7 @@ https://discord.gg/zDgFTuSSFY
 
 WEB ROLLER
 The most accessible way to use this randomizer is the web roller here:
-https://randorandy.github.io/ZFactorRando/
+https://randorandy.github.io/CursedRando/
 
 LOCAL DOWNLOAD
 If you prefer an offline or custom experience, you may want to use python3 and roll locally:
