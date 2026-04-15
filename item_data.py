@@ -29,8 +29,10 @@ class Items:
              b"\x00")
     Springball = ("Springball", 
                  b"\x03\xef",
-                 b"\x57\xef",
-                 b"\xab\xef",
+                 b"\x03\xef",
+                 b"\x03\xef",
+                 #b"\x57\xef",
+                 #b"\xab\xef",
                  b"\x00")
     Bombs = ("Bombs",
              #b"\xe7\xee",
