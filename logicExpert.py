@@ -218,7 +218,36 @@ bugRun = LogicShortcut(lambda loadout: (
     (Energy in loadout) and
     (
         (Ice in loadout) or
+        (Charge in loadout) or
         (energy300 in loadout)
+    )
+))
+morphRight = LogicShortcut(lambda loadout: (
+    (Morph in loadout) and
+    (pinkDoor in loadout) and
+    (
+        (canUsePB in loadout) or
+        (Springball in loadout) or
+        (HiJump in loadout)
+    )
+))
+direDireNW = LogicShortcut(lambda loadout: (
+    (bugRun in loadout) or
+    (morphRight in loadout)
+))
+maridiaTube = LogicShortcut(lambda loadout: (
+    (direDireNW in loadout) and
+    (
+        (SpeedBooster in loadout) or
+        (canSBJ in loadout) or
+        (HiJump in loadout)
+    )
+))
+iceTrippers = LogicShortcut(lambda loadout: (
+    (greenBrin in loadout) and
+    (
+        (Ice in loadout) or
+        (Grapple in loadout)
     )
 ))
 southernCross = LogicShortcut(lambda loadout: (
@@ -227,6 +256,9 @@ southernCross = LogicShortcut(lambda loadout: (
     (Varia in loadout) and
     (Morph in loadout) and 
     (energy500 in loadout) #idk
+))
+gtArea = LogicShortcut(lambda loadout: (
+    (canUsePB in loadout)
 ))
 
 everything = LogicShortcut(lambda loadout: (
@@ -292,7 +324,16 @@ location_logic: LocationLogicType = {
         (pinkDoor in loadout)
     ),
     "GT Power Bomb 43": lambda loadout: (
-        (everything in loadout)
+        (gtArea in loadout) and
+        (Super in loadout) and
+        (energy300 in loadout) and
+        (
+            (
+                (Screw in loadout) and
+                (SpaceJump in loadout)
+            ) or
+            (energy800 in loadout)
+        )
     ),
     "Charge Beam 8": lambda loadout: (
         (greenBrin in loadout)
@@ -301,7 +342,7 @@ location_logic: LocationLogicType = {
         (greenBrin in loadout)
     ),
     "Varia Suit 30": lambda loadout: (
-        (everything in loadout)
+        (iceTrippers in loadout)
     ),
     "Gravity Suit 57": lambda loadout: (
         (everything in loadout)
@@ -363,21 +404,22 @@ location_logic: LocationLogicType = {
         (Morph in loadout)
     ),
     "Ice Trippers Power Bomb 88": lambda loadout: (
-        (greenBrin in loadout) and
-        (Ice in loadout) and
+        (iceTrippers in loadout) and
         (canUsePB in loadout)
     ),
     "Ice Trippers Climb Missile 29": lambda loadout: (
-        (greenBrin in loadout) and
-        (Ice in loadout)
+        (iceTrippers in loadout)
     ),
     "Fireball Hill Super Missile 77": lambda loadout: (
-        (greenBrin in loadout) and
-        (Ice in loadout)
+        (iceTrippers in loadout) and
+        (
+            (Ice in loadout) or
+            (Super in loadout)
+        )
         #heat?
     ),
     "West Norfair Rubble Energy Tank 89": lambda loadout: (
-        (greenBrin in loadout) and
+        (iceTrippers in loadout) and
         (pinkDoor in loadout)
     ),
     "Cathedral Missile 28": lambda loadout: (
@@ -454,18 +496,29 @@ location_logic: LocationLogicType = {
         (bugRun in loadout)
     ),
     "Dire Dire Northwest Super Missile 13": lambda loadout: (
-        (everything in loadout)
+        (bugRun in loadout) and
+        (
+            (Spazer in loadout) or
+            (Plasma in loadout) or
+            (Charge in loadout)
+        )
         #bug run or the other way
         #defeat an oum
     ),
     "Snail Missile 15": lambda loadout: (
-        (everything in loadout)
+        (direDireNW in loadout) and
+        (Super in loadout)
     ),
     "Snail Energy Tank 14": lambda loadout: (
-        (everything in loadout)
+        (
+            (bugRun in loadout) and
+            (Super in loadout)
+        ) or
+        (morphRight in loadout)
     ),
     "HiJump 16": lambda loadout: (
-        (everything in loadout)
+        (direDireNW in loadout) and
+        (Charge in loadout)
     ),
     "Dire Dire Covern Energy Tank 17": lambda loadout: (
         (everything in loadout)
@@ -473,14 +526,14 @@ location_logic: LocationLogicType = {
     "Speed Pit Missile 55": lambda loadout: (
         (everything in loadout)
     ),
-    "Dire Dire Northeast Missile 18": lambda loadout: (
-        (everything in loadout)
+    "Dire Dire Northeast Hidden Missile 18": lambda loadout: (
+        (maridiaTube in loadout)
     ),
     "Speed Booster 98": lambda loadout: (
-        (everything in loadout)
+        (maridiaTube in loadout)
     ),
     "Tube Blessed Orb 58": lambda loadout: (
-        (everything in loadout)
+        (maridiaTube in loadout)
     ),
     "Gravity Area Super Missile 56": lambda loadout: (
         (everything in loadout)
@@ -555,28 +608,28 @@ location_logic: LocationLogicType = {
         (everything in loadout)
     ),
     "Southern Cross Main Missile 32": lambda loadout: (
-        (everything in loadout)
+        (southernCross in loadout)
     ),
     "Southern Cross Main Blessed Orb 31": lambda loadout: (
-        (everything in loadout)
+        (southernCross in loadout)
     ),
     "Southern Cross Lower Missile 33": lambda loadout: (
-        (everything in loadout)
+        (southernCross in loadout)
     ),
     "Southern Cross Bangs Missile 90": lambda loadout: (
-        (everything in loadout)
+        (southernCross in loadout)
     ),
     "Southern Cross Alcoon Ripper Missile 34": lambda loadout: (
-        (everything in loadout)
+        (southernCross in loadout)
     ),
     "Southern Cross Left Super Missile 36": lambda loadout: (
-        (everything in loadout)
+        (southernCross in loadout)
     ),
     "Southern Cross Right Energy Tank 37": lambda loadout: (
-        (everything in loadout)
+        (southernCross in loadout)
     ),
     "Southern Cross Right Super Missile 87": lambda loadout: (
-        (everything in loadout)
+        (southernCross in loadout)
     ),
     "Draygon Lower Maze Missile 53": lambda loadout: (
         (everything in loadout)
@@ -600,7 +653,7 @@ location_logic: LocationLogicType = {
         (everything in loadout)
     ),
     "Southern Cross GT Transfer Super Missile? 92": lambda loadout: (
-        (everything in loadout)
+        (gtArea in loadout)
     ),
     "Phantoon Metroid Floor Missile? 96": lambda loadout: (
         (everything in loadout)
@@ -612,10 +665,14 @@ location_logic: LocationLogicType = {
         (everything in loadout)
     ),
     "Botwoon Missile? 81": lambda loadout: (
-        (everything in loadout)
+        (direDireNW in loadout)
     ),
     "Xray? 35": lambda loadout: (
-        (everything in loadout)
+        (southernCross in loadout) and
+        (
+            (Charge in loadout) or
+            (missile10 in loadout)
+        )
     ),
     "Wave Pit? 86": lambda loadout: (
         (everything in loadout)
@@ -624,7 +681,8 @@ location_logic: LocationLogicType = {
         (everything in loadout)
     ),
     "Below Spazer Blessed Orb? 26": lambda loadout: (
-        (everything in loadout)
+        (pastSpazer in loadout) or
+        (beatSpore in loadout)
     ),
 
 
