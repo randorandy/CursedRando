@@ -197,19 +197,49 @@ greenBrin = LogicShortcut(lambda loadout: (
     )
 ))
 aboveKraid = LogicShortcut(lambda loadout: (
-    (greenBrin in loadout) and
-    (Super in loadout)
-    # maybe Supers+morph only, skip kraid?
+    (Super in loadout) and
+    (
+        (greenBrin in loadout) or
+        (Morph in loadout) or
+        (SpeedBooster in loadout) or
+        (HiJump in loadout)
+    ) 
 ))
 beatSpore = LogicShortcut(lambda loadout: (
     (aboveKraid in loadout) and
+    (Morph in loadout) and
     (Ice in loadout)
 ))
 pastSpazer = LogicShortcut(lambda loadout: (
     (aboveKraid in loadout) and
+    (Morph in loadout) and
     (
         (Spazer in loadout) or
         (Plasma in loadout)
+    )
+))
+phantoonEntry = LogicShortcut(lambda loadout: (
+    (
+        (greenBrin in loadout) and
+        (canUsePB in loadout) 
+    ) or
+    (pastSpazer in loadout) or
+    (beatSpore in loadout)
+))
+phantoonInside = LogicShortcut(lambda loadout: (
+    (phantoonEntry in loadout) and
+    (
+        ( #top route
+            (canSBJ in loadout) and
+            (canUsePB in loadout) and
+            (SpaceJump in loadout) and
+            (energy400 in loadout)
+        ) or
+        ( #bottom route
+            (canUsePB in loadout) and
+            (Plasma in loadout) and
+            (energy400 in loadout)
+        )
     )
 ))
 bugRun = LogicShortcut(lambda loadout: (
@@ -260,28 +290,63 @@ southernCross = LogicShortcut(lambda loadout: (
 gtArea = LogicShortcut(lambda loadout: (
     (canUsePB in loadout)
 ))
+crateriaMain = LogicShortcut(lambda loadout: (
+    (gtArea in loadout) or
+    (
+        (southernCross in loadout) and
+        (
+            (Xray in loadout) or
+            (
+                (SpaceJump in loadout) and
+                (Screw in loadout)
+            ) or
+            (HiJump in loadout) or
+            (canSBJ in loadout)
+        )
+    ) or
+    (
+        (maridiaTube in loadout) and
+        (
+            (HiJump in loadout) or
+            (SpaceJump in loadout) or
+            (GravitySuit in loadout) or
+            (canSBJ in loadout)
+        )
+    )
+))
+plasmaPit = LogicShortcut(lambda loadout: (
+    (crateriaMain in loadout) and
+    (
+        (SpaceJump in loadout) or
+        (Screw in loadout) or
+        (canSBJ in loadout) or
+        (HiJump in loadout)
+    ) and
+    (Plasma in loadout)
 
-everything = LogicShortcut(lambda loadout: (
+))
+draygonFront = LogicShortcut(lambda loadout: (
+    (crateriaMain in loadout)
+))
+draygonInside = LogicShortcut(lambda loadout: (
+    (draygonFront in loadout) and
+    (
+        (SpaceJump in loadout) or
+        (GravitySuit in loadout) or
+        (canSBJ in loadout)
+    )
+))
+lnWest = LogicShortcut(lambda loadout: (
+    (greenBrin in loadout) and
     (Morph in loadout) and
-    (Missile in loadout) and
     (Super in loadout) and
-    (PowerBomb in loadout) and
-    (Grapple in loadout) and
-    (Xray in loadout) and
-    (Charge in loadout) and
-    (Ice in loadout) and
-    (Wave in loadout) and
-    (Spazer in loadout) and
-    (Plasma in loadout) and
     (Varia in loadout) and
-    (GravitySuit in loadout) and
-    (Springball in loadout) and
-    (Bombs in loadout) and
-    (Screw in loadout) and
-    (SpeedBooster in loadout) and
-    (HiJump in loadout) and
-    (SpaceJump in loadout) and
-    (Reserve in loadout)
+    (energy600 in loadout) and
+    (
+        (Grapple in loadout) or
+        (Screw in loadout) or
+        (canSBJ in loadout) 
+    )
 ))
 
 area_logic: AreaLogicType = {
@@ -345,7 +410,12 @@ location_logic: LocationLogicType = {
         (iceTrippers in loadout)
     ),
     "Gravity Suit 57": lambda loadout: (
-        (everything in loadout)
+        (maridiaTube in loadout) and
+        (
+            (SpaceJump in loadout) or
+            (HiJump in loadout) or
+            (GravitySuit in loadout)
+        )
     ),
     "Ice Beam 22": lambda loadout: (
         (beatSpore in loadout)
@@ -461,7 +531,8 @@ location_logic: LocationLogicType = {
         (canUsePB in loadout)
     ),
     "Grabber Missile 75": lambda loadout: (
-        (aboveKraid in loadout)
+        (aboveKraid in loadout) and
+        (Morph in loadout)
     ),
     "Above Spazer Energy Tank 12": lambda loadout: (
         (aboveKraid in loadout)
@@ -470,12 +541,7 @@ location_logic: LocationLogicType = {
         (pastSpazer in loadout)
     ),
     "Trapped Metroid Missile 27": lambda loadout: (
-        (
-            (greenBrin in loadout) and
-            (canUsePB in loadout) 
-        ) or
-        (pastSpazer in loadout) or
-        (beatSpore in loadout)
+        (phantoonEntry in loadout)
     ),
     "Spazer Secret Missile 76": lambda loadout: (
         (aboveKraid in loadout)
@@ -521,10 +587,15 @@ location_logic: LocationLogicType = {
         (Charge in loadout)
     ),
     "Dire Dire Covern Energy Tank 17": lambda loadout: (
-        (everything in loadout)
+        (maridiaTube in loadout) and
+        (
+            (GravitySuit in loadout) or
+            (SpaceJump in loadout) or
+            (canSBJ in loadout)
+        )
     ),
     "Speed Pit Missile 55": lambda loadout: (
-        (everything in loadout)
+        (maridiaTube in loadout)
     ),
     "Dire Dire Northeast Hidden Missile 18": lambda loadout: (
         (maridiaTube in loadout)
@@ -536,76 +607,97 @@ location_logic: LocationLogicType = {
         (maridiaTube in loadout)
     ),
     "Gravity Area Super Missile 56": lambda loadout: (
-        (everything in loadout)
+        (maridiaTube in loadout)
     ),
     "Outside Gravity Missile 54": lambda loadout: (
-        (everything in loadout)
+        (maridiaTube in loadout)
     ),
     "Draygon Front Door Missile 59": lambda loadout: (
-        (everything in loadout)
+        (draygonFront in loadout)
     ),
     "Draygon Power Bomb 61": lambda loadout: (
-        (everything in loadout)
+        (draygonInside in loadout)
     ),
     "Maridia Elevator From Crateria Missile 95": lambda loadout: (
-        (everything in loadout)
+        (draygonFront in loadout)
     ),
     "Crateria Hidden Pillars Energy Tank 38": lambda loadout: (
-        (everything in loadout)
+        (crateriaMain in loadout)
     ),
     "Crateria Pirate Foot Missile 91": lambda loadout: (
-        (everything in loadout)
+        (crateriaMain in loadout) and
+        (
+            (Plasma in loadout) or
+            (canSBJ in loadout) or
+            (HiJump in loadout) or
+            (Charge in loadout)
+        )
     ),
     "Wave Beam 39": lambda loadout: (
-        (everything in loadout)
+        (crateriaMain in loadout) and
+        (Wave in loadout)
     ),
     "Plasma Beam 67": lambda loadout: (
-        (everything in loadout)
+        (plasmaPit in loadout)
     ),
     "Sand Pit Low Missile 153": lambda loadout: (
-        (everything in loadout)
+        (plasmaPit in loadout)
     ),
     "Sand Pit Power Bomb 84": lambda loadout: (
-        (everything in loadout)
+        (plasmaPit in loadout)
     ),
     "Shaktool Energy Tank 66": lambda loadout: (
-        (everything in loadout)
+        (plasmaPit in loadout)
     ),
     "GT Entry Blocks Missile 41": lambda loadout: (
-        (everything in loadout)
+        (gtArea in loadout)
     ),
     "GT Entry Ceiling Missile 40": lambda loadout: (
-        (everything in loadout)
+        (gtArea in loadout)
     ),
     "GT Entry Energy Tank 42": lambda loadout: (
-        (everything in loadout)
+        (gtArea in loadout)
     ),
     "Frog Den Power Bomb 68": lambda loadout: (
-        (everything in loadout)
+        (phantoonInside in loadout)
     ),
     "Nice Grabbers Over Acid Missile 69": lambda loadout: (
-        (everything in loadout)
+        (phantoonInside in loadout)
     ),
     "Space Jump 71": lambda loadout: (
-        (everything in loadout)
+        (phantoonInside in loadout) and
+        (Missile in loadout) and
+        (SpaceJump in loadout)
     ),
     "Phantoon Climb Missile 70": lambda loadout: (
-        (everything in loadout)
+        (phantoonInside in loadout)
     ),
     "Ridley Super Missile 49": lambda loadout: (
-        (everything in loadout)
+        (lnWest in loadout) and
+        (
+            (
+                (Grapple in loadout) and
+                (
+                    (canBreakBlocks in loadout) or
+                    (HiJump in loadout)
+                )
+            ) or
+            (canSBJ in loadout)
+        )
     ),
     "Ridley Energy Tank 50": lambda loadout: (
-        (everything in loadout)
+        (lnWest in loadout) and
+        (canBreakBlocks in loadout)
     ),
     "Ridley Power Bomb 51": lambda loadout: (
-        (everything in loadout)
+        (lnWest in loadout) and
+        (canBreakBlocks in loadout)
     ),
     "Ridley Missile 52": lambda loadout: (
-        (everything in loadout)
+        (lnWest in loadout)
     ),
     "Ridley Bangs Missile 97": lambda loadout: (
-        (everything in loadout)
+        (lnWest in loadout)
     ),
     "Southern Cross Main Missile 32": lambda loadout: (
         (southernCross in loadout)
@@ -632,40 +724,59 @@ location_logic: LocationLogicType = {
         (southernCross in loadout)
     ),
     "Draygon Lower Maze Missile 53": lambda loadout: (
-        (everything in loadout)
+        (draygonInside in loadout) and
+        (canUsePB in loadout)
     ),
     "Draygon Lower Attic Missile 62": lambda loadout: (
-        (everything in loadout)
+        (draygonInside in loadout) and
+        (canUsePB in loadout)
     ),
     "Draygon Frogs Hidden Missile 99": lambda loadout: (
-        (everything in loadout)
+        (draygonInside in loadout) and
+        (canUsePB in loadout)
     ),
     "Draygon Upper Maze Missile 63": lambda loadout: (
-        (everything in loadout)
+        (draygonInside in loadout) and
+        (canUsePB in loadout)
     ),
     "Screw Attack 64": lambda loadout: (
-        (everything in loadout)
+        #defeat draygon
+        (draygonInside in loadout) and
+        (canUsePB in loadout) and
+        (energy500 in loadout) and
+        (
+            (missile20 in loadout) or
+            (canSBJ in loadout)
+        )
     ),
     "Sand Pit Blessed Orb? 65": lambda loadout: (
-        (everything in loadout)
+        (plasmaPit in loadout)
     ),
     "Springball? 78": lambda loadout: (
-        (everything in loadout)
+        (lnWest in loadout) and
+        (energy800 in loadout) and
+        (
+            (Plasma in loadout) or
+            (canSBJ in loadout) or
+            (HiJump in loadout)
+        )
     ),
     "Southern Cross GT Transfer Super Missile? 92": lambda loadout: (
         (gtArea in loadout)
     ),
     "Phantoon Metroid Floor Missile? 96": lambda loadout: (
-        (everything in loadout)
+        (phantoonInside in loadout)
     ),
     "Draygon Energy Tank? 60": lambda loadout: (
-        (everything in loadout)
+        (draygonInside in loadout)
     ),
     "Wave Bangs Super Missile? 19": lambda loadout: (
-        (everything in loadout)
+        (crateriaMain in loadout)
     ),
     "Botwoon Missile? 81": lambda loadout: (
-        (direDireNW in loadout)
+        (direDireNW in loadout) and
+        (Screw in loadout)
+        #hopefully there is another good way
     ),
     "Xray? 35": lambda loadout: (
         (southernCross in loadout) and
@@ -675,10 +786,11 @@ location_logic: LocationLogicType = {
         )
     ),
     "Wave Pit? 86": lambda loadout: (
-        (everything in loadout)
+        (crateriaMain in loadout) and
+        (canUsePB in loadout)
     ),
     "Sand Pit Super Missile? 85": lambda loadout: (
-        (everything in loadout)
+        (plasmaPit in loadout)
     ),
     "Below Spazer Blessed Orb? 26": lambda loadout: (
         (pastSpazer in loadout) or
