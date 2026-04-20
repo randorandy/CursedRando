@@ -470,8 +470,20 @@ location_logic: LocationLogicType = {
         #or uncursed morph
     ),
     "Gauntlet Missile 79": lambda loadout: (
-        (Super in loadout) and
-        (Morph in loadout)
+        (Morph in loadout) and
+        (
+            (Super in loadout) or
+            (
+                (Missile in loadout) and
+                (
+                    (HiJump in loadout) or
+                    (SpeedBooster in loadout) or
+                    (canSBJ in loadout) or
+                    (SpaceJump in loadout)
+                )
+            )
+
+        )
     ),
     "Ice Trippers Power Bomb 88": lambda loadout: (
         (iceTrippers in loadout) and
