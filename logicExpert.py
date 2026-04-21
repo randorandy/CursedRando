@@ -202,7 +202,10 @@ aboveKraid = LogicShortcut(lambda loadout: (
         (greenBrin in loadout) or
         (Morph in loadout) or
         (SpeedBooster in loadout) or
-        (HiJump in loadout)
+        (
+            (HiJump in loadout) and
+            (Morph in loadout)
+        )
     ) 
 ))
 beatSpore = LogicShortcut(lambda loadout: (
@@ -264,6 +267,7 @@ morphRight = LogicShortcut(lambda loadout: (
 direDireNW = LogicShortcut(lambda loadout: (
     (bugRun in loadout) or
     (morphRight in loadout)
+    #morph implied
 ))
 maridiaTube = LogicShortcut(lambda loadout: (
     (direDireNW in loadout) and
@@ -271,6 +275,7 @@ maridiaTube = LogicShortcut(lambda loadout: (
         (SpeedBooster in loadout) or
         (canSBJ in loadout) or
         (HiJump in loadout)
+        #morph implied
     )
 ))
 iceTrippers = LogicShortcut(lambda loadout: (
@@ -288,7 +293,15 @@ southernCross = LogicShortcut(lambda loadout: (
     (energy500 in loadout) #idk
 ))
 gtArea = LogicShortcut(lambda loadout: (
-    (canUsePB in loadout)
+    (canUsePB in loadout) and
+    (
+        (energy800 in loadout) or
+        (
+            (SpaceJump in loadout) and
+            (HiJump in loadout)
+        )
+    )
+
 ))
 crateriaMain = LogicShortcut(lambda loadout: (
     (gtArea in loadout) or
@@ -300,12 +313,14 @@ crateriaMain = LogicShortcut(lambda loadout: (
                 (SpaceJump in loadout) and
                 (Screw in loadout)
             ) or
+            #morph implied
             (HiJump in loadout) or
             (canSBJ in loadout)
         )
     ) or
     (
         (maridiaTube in loadout) and
+        #morph implied
         (
             (HiJump in loadout) or
             (SpaceJump in loadout) or
@@ -323,7 +338,7 @@ plasmaPit = LogicShortcut(lambda loadout: (
         (HiJump in loadout)
     ) and
     (Plasma in loadout)
-
+    #morph implied
 ))
 draygonFront = LogicShortcut(lambda loadout: (
     (crateriaMain in loadout)
